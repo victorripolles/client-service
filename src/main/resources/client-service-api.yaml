@@ -1,0 +1,288 @@
+openapi: 3.0.3
+info:
+  version: 1.0.1
+  title: Client Service API
+  description: API for managing clients in a CRM microservice
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+
+servers:
+  - url: 'http://localhost:8080'
+
+tags:
+  - name: Clients
+    description: Client information and management
+
+paths:
+  /clients:
+    get:
+      tags:
+        - Clients
+      summary: Get list of clients
+      description: Returns all registered clients
+      operationId: getClients
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClientResponseDTO'
+              examples:
+                Example 1:
+                  value:
+                    - id: 1
+                      name: John Doe
+                      email: john.doe@example.com
+                      phone: "+34 600 123 456"
+                      address: "Calle Falsa 123, Madrid, Spain"
+                      company: "ACME Corp"
+                      status: "active"
+                    - id: 2
+                      name: Jane Smith
+                      email: jane.smith@example.com
+                      phone: "+34 622 987 654"
+                      address: "Av. de la Constitución 45, Barcelona, Spain"
+                      company: "Globex Inc"
+                      status: "inactive"
+        '204':
+          description: No Content
+        '500':
+          description: Internal Server Error
+
+    post:
+      tags:
+        - Clients
+      summary: Create a new client
+      description: Adds a new client to the system
+      operationId: createClient
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientCreateRequestDTO'
+            examples:
+              Example 1:
+                value:
+                  name: John Doe
+                  email: john.doe@example.com
+                  phone: "+34 600 123 456"
+                  address: "Calle Inventada 123, Madrid, Spain"
+                  company: "ACME Corp"
+                  status: "active"
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientResponseDTO'
+              examples:
+                Example 1:
+                  value:
+                    id: 1
+                    name: John Doe
+                    email: john.doe@example.com
+                    phone: "+34 600 123 456"
+                    address: "Calle Inventada 123, Madrid, Spain"
+                    company: "ACME Corp"
+                    status: "active"
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+
+  /clients/{clientId}:
+    get:
+      tags:
+        - Clients
+      summary: Get client by ID
+      description: Returns a client identified by the client ID
+      operationId: getClientById
+      parameters:
+        - name: clientId
+          in: path
+          description: Client Identifier
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientResponseDTO'
+              examples:
+                Example 1:
+                  value:
+                    id: 1
+                    name: John Doe
+                    email: john.doe@example.com
+                    phone: "+34 600 123 456"
+                    address: "Calle Falsa 123, Madrid, Spain"
+                    company: "ACME Corp"
+                    status: "active"
+        '400':
+          description: Invalid Client ID
+        '404':
+          description: Client not found
+        '500':
+          description: Internal Server Error
+
+    put:
+      tags:
+        - Clients
+      summary: Update client information
+      description: Updates client data identified by the client ID
+      operationId: updateClient
+      parameters:
+        - name: clientId
+          in: path
+          description: Client Identifier
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientUpdateRequestDTO'
+            examples:
+              Example 1:
+                value:
+                  name: Johnathan Doe
+                  email: johnathan.doe@example.com
+                  phone: "+34 600 654 321"
+                  address: "Calle Real 99, Madrid, Spain"
+                  company: "ACME Corp"
+                  status: "active"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientResponseDTO'
+              examples:
+                Example 1:
+                  value:
+                    id: 1
+                    name: Johnathan Doe
+                    email: johnathan.doe@example.com
+                    phone: "+34 600 654 321"
+                    address: "Calle Real 99, Madrid, Spain"
+                    company: "ACME Corp"
+                    status: "active"
+        '400':
+          description: Bad Request
+        '404':
+          description: Client not found
+        '500':
+          description: Internal Server Error
+
+    delete:
+      tags:
+        - Clients
+      summary: Delete a client
+      description: Removes a client identified by the client ID
+      operationId: deleteClient
+      parameters:
+        - name: clientId
+          in: path
+          description: Client Identifier
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request
+        '404':
+          description: Client not found
+        '500':
+          description: Internal Server Error
+
+components:
+  schemas:
+    ClientResponseDTO:
+      type: object
+      title: ClientResponseDTO
+      properties:
+        id:
+          type: integer
+          example: 1
+          minimum: 1
+        name:
+          type: string
+          example: John Doe
+        email:
+          type: string
+          example: john.doe@example.com
+        phone:
+          type: string
+          example: "+34 600 123 456"
+        address:
+          type: string
+          example: "Calle Falsa 123, Madrid, Spain"
+        company:
+          type: string
+          example: "ACME Corp"
+        status:
+          type: string
+          example: "active"
+
+    ClientCreateRequestDTO:
+      type: object
+      title: ClientCreateRequestDTO
+      properties:
+        name:
+          type: string
+          example: John Doe
+        email:
+          type: string
+          example: john.doe@example.com
+        phone:
+          type: string
+          example: "+34 600 123 456"
+        address:
+          type: string
+          example: "Calle Falsa 123, Madrid, Spain"
+        company:
+          type: string
+          example: "ACME Corp"
+        status:
+          type: string
+          example: "active"
+
+    ClientUpdateRequestDTO:
+      type: object
+      title: ClientUpdateRequestDTO
+      properties:
+        name:
+          type: string
+          example: Johnathan Doe
+        email:
+          type: string
+          example: johnathan.doe@example.com
+        phone:
+          type: string
+          example: "+34 600 654 321"
+        address:
+          type: string
+          example: "Calle Real 99, Madrid, Spain"
+        company:
+          type: string
+          example: "ACME Corp"
+        status:
+          type: string
+          example: "active"

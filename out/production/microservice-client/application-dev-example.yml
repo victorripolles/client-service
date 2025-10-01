@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: microservice-client
+  profiles:
+    active: dev  # perfil activo por defecto, puede ser dev, prod, test
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+server:
+  port: 8080

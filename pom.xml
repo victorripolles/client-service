@@ -85,7 +85,7 @@
 			<version>2.5.0</version>
 		</dependency>
 
-		<!--		CONTRACT DEPENDENCIES		-->
+		<!--		CONTRACT DEPENDENCIES 		-->
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
@@ -111,6 +111,18 @@
 			<groupId>org.openapitools</groupId>
 			<artifactId>jackson-databind-nullable</artifactId>
 			<version>0.2.1</version>
+		</dependency>
+
+		<!--		MAPPER DEPENDENCIES 		-->
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct-processor</artifactId>
+			<version>1.6.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>1.6.3</version>
 		</dependency>
 
 	</dependencies>

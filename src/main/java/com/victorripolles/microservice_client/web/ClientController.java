@@ -7,6 +7,8 @@ import com.victorripolles.microservice_client.api.dto.ClientUpdateRequestDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,8 +29,18 @@ public class ClientController implements ClientsApi {
     public ResponseEntity<ClientResponseDTO> createClient(ClientCreateRequestDTO clientCreateRequestDTO) {
         log.info("ClientController.createClient.INIT");
 
+        ClientResponseDTO clientResponseDTO;
+
+        try {
+            clientService.createClient()
+            clientMapper.clientCreateRequestDTOtoClientCreateRequestVO(clientCreateRequestDTO);
+            clientResponseDTO = clientMapper.clientCreateResponseVOtoClientCreateResponseDTO();
+        } catch (DuplicateKeyException e) {
+            log.error(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         log.info("ClientController.createClient.END");
-        return null;
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @Override

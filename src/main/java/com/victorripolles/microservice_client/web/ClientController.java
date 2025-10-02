@@ -4,6 +4,9 @@ import com.victorripolles.microservice_client.api.ClientsApi;
 import com.victorripolles.microservice_client.api.dto.ClientCreateRequestDTO;
 import com.victorripolles.microservice_client.api.dto.ClientResponseDTO;
 import com.victorripolles.microservice_client.api.dto.ClientUpdateRequestDTO;
+import com.victorripolles.microservice_client.mapper.ClientMapper;
+import com.victorripolles.microservice_client.service.ClientService;
+import org.mapstruct.factory.Mappers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +20,10 @@ import java.util.List;
 @RestController
 public class ClientController implements ClientsApi {
 
-//    @Autowired
+    @Autowired
 //    ClientService clientService;
 
-//    ClientMapper clientMapper = Mappers.getMapper(clientMapper.class);
+//    private ClientMapper clientMapper = Mappers.getMapper(clientMapper.class);
 
 
     static final Logger log = LoggerFactory.getLogger(ClientController.class);
@@ -28,19 +31,19 @@ public class ClientController implements ClientsApi {
     @Override
     public ResponseEntity<ClientResponseDTO> createClient(ClientCreateRequestDTO clientCreateRequestDTO) {
         log.info("ClientController.createClient.INIT");
-
-        ClientResponseDTO clientResponseDTO;
-
-        try {
-            clientService.createClient()
-            clientMapper.clientCreateRequestDTOtoClientCreateRequestVO(clientCreateRequestDTO);
-            clientResponseDTO = clientMapper.clientCreateResponseVOtoClientCreateResponseDTO();
-        } catch (DuplicateKeyException e) {
-            log.error(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        log.info("ClientController.createClient.END");
-        return new ResponseEntity<>(HttpStatus.CREATED);
+//
+//        ClientResponseDTO clientResponseDTO;
+//        try {
+////            clientService.createClient();
+////            clientMapper.clientCreateRequestDTOtoClientCreateRequestVO(clientCreateRequestDTO);
+////            clientResponseDTO = clientMapper.clientCreateResponseVOtoClientCreateResponseDTO();
+//        } catch (DuplicateKeyException e) {
+//            log.error(e.getMessage());
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+//        log.info("ClientController.createClient.END");
+        return null;
+//        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @Override
